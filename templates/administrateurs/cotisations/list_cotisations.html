@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% include 'administrateurs/partialsadmin/headbar_admin.html' %}
+  {% include 'administrateurs/partialsadmin/sidebar_admin.html' %}
+
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="page-sub-header">
+              <h3 class="page-title">Gestion des Cotisations</h3>
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'cotisation_view' %}">Cotisations</a>
+                </li>
+                <li class="breadcrumb-item active">Liste des cotisations</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="student-group-form">
+        <form method="GET" action="{% url 'cotisation_view' %}">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <input type="text" name="search_id" class="form-control" placeholder="Veuillez saisir le code de l'adhérent..." />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <input type="text" name="search_name" class="form-control" placeholder="Veuillez saisir le nom ou prénom de l'adhérent ..." />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="form-group">
+              <input type="text" name="search_phone" class="form-control" placeholder="Veuillez saisir le mois ou l'année de la cotisation ..." />
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="search-student-btn">
+              <button type="btn" class="btn btn-primary">Recherche</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table comman-shadow">
+            <div class="card-body">
+              <div class="page-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 class="page-title">Les cotisations</h3>
+                  </div>
+                  <div class="col-auto text-end float-end ms-auto download-grp">
+                    <a href="{% url 'adherent_view' %}" class="btn btn-outline-gray me-2 active"><i class="feather-list"></i></a>
+                    <a href="students-grid.html" class="btn btn-outline-gray me-2"><i class="feather-grid"></i></a>
+                    <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-download"></i> Download</a>
+                    <a href="{% url 'cotisation_add' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+                  <thead class="student-thread">
+                    <tr>
+                      <th>
+                        <div class="form-check check-tables">
+                          <input class="form-check-input" type="checkbox" value="something" />
+                        </div>
+                      </th>
+                      <th>Code d'adhérent</th>
+                      <th>Nom | Prénom d'adhérent</th>
+                      <th>Date du paiement de la cotisation</th>
+                      <th>Mois Concerné</th>
+                      <th>Année Concernée</th>
+                      <th>Montant à cotiser</th>
+                      <th>Montant cotisé</th>
+                      <th>Reste à cotiser</th>
+                      <th class="text-end">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for cotisation in cotisations %}
+                      <tr>
+                        <td>
+                          <div class="form-check check-tables">
+                            <input class="form-check-input" type="checkbox" value="something" />
+                          </div>
+                        </td>
+                        <td>{{ cotisation.Adherent.CodeAdh }}</td>
+                        <td>
+                          <h2 class="table-avatar">
+                            {% if cotisation.Adherent.ImageAdh %}
+                              <a href="{% url 'cotisation_details' cotisation.id %}" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ cotisation.Adherent.ImageAdh.url }}" alt="Image Adhérent" /></a>
+                            {% else %}
+                              <a href="{% url 'cotisation_details' cotisation.id %}" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="assets/img/profiles/profil_avatar.jpg" alt="Image Adhérent" /></a>
+                            {% endif %}
+                            <a href="{% url 'cotisation_details' cotisation.id %}">{{ cotisation.Adherent.NomAdh }} {{ cotisation.Adherent.PrenomAdh }}</a>
+                          </h2>
+                        </td>
+                        <td>{{ cotisation.DatePaiement }}</td>
+                        <td>{{ cotisation.MoisCotisation }}</td>
+                        <td>{{ cotisation.AnneeConcernee }}</td>
+                        <td>{{ cotisation.Adherent.MontantACotiserAdh }}</td>
+                        <td>{{ cotisation.MontantCotise }} FCFA</td>
+                        
+                        <td>
+                          {% if cotisation.reste_a_cotiser == 0 %}
+                            <span style="color: green;">{{ cotisation.reste_a_cotiser }} FCFA</span>
+                          {% elif cotisation.reste_a_cotiser > 0 %}
+                            <span style="color: red;">{{ cotisation.reste_a_cotiser }} FCFA</span>
+                          {% else %}
+                            <span style="color: gray;">N/A</span>
+                          {% endif %}
+                        </td> 
+
+                        <td class="text-end">
+                          <div class="actions">
+                            <a href="{% url 'cotisation_details' cotisation.id %}" class="btn btn-sm bg-success-light me-2"><i class="feather-eye"></i></a>
+                            <a href="{% url 'cotisation_edit' cotisation.id %}" class="btn btn-sm bg-danger-light"><i class="feather-edit"></i></a>
+                            <!-- Bouton de suppression -->
+                            <a href="{% url 'cotisation_delete' cotisation.id %}" class="btn btn-sm bg-danger-light" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette cotisation ? Cette action est irréversible.')"><i class="feather-trash"></i></a>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

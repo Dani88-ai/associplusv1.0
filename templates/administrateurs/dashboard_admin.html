@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    {% include 'administrateurs/partialsadmin/headbar_admin.html' %}
+    {% include 'administrateurs/partialsadmin/sidebar_admin.html' %} 
+
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-sub-header">
+            <h3 class="page-title">
+              Welcome {{ user.username }} {% if user.is_admin %}
+                 Administrateur
+              {% elif user.is_president %}
+                 Président
+              {% elif user.is_tresorier %}
+                 Trésorier(e)
+              {% elif user.is_secretaire %}
+                 Secrétaire
+              {% elif user.is_membre %}
+                 Membre
+              {% else %}
+                N/A
+              {% endif %}
+            </h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="{% url 'dashboard_admin' %}">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item active">Admin</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 col-12 d-flex">
+        <div class="card bg-comman w-100">
+          <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+              <div class="db-info">
+                <h6 style="font-size: 20px;">Adhésions</h6>
+                <h6 style="font-size: 65%; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Membres</h6>
+                <h3>{{ total_count }}</h3>
+                <h6 style="font-size: 65%; font-family: Georgia, 'Times New Roman', Times, serif;"><strong>Dont adhérent Actif {{ active_count }}; adhérent Inactif {{ inactive_count }}; adhérent suspendu {{ suspended_count }}; et ({{ female_count }}) femme(s)</strong></h6>
+              </div>
+              <div class="">
+                <i style="font-size: 30px;" class="fas fa-users"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12 d-flex">
+        <div class="card bg-comman w-100">
+          <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+              <div class="db-warning">
+                <h6 style="font-size: 20px;">Cotisations  Actifs</h6>
+                <h3>{{ total_cotisations_actifs }} FCFA</h3>
+                <h6 style="font-size: 65%; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Montant global des Cotisations des membres Actifs pour {{ current_year }}</h6>
+              </div>
+              <div class="">
+                <i style="font-size: 30px;" class="fas fa-credit-card"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12 d-flex">
+        <div class="card {% if total_cotisations_inactifs > 0 %}bg-warning{% else %}bg-white{% endif %} w-100">
+          <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+              <div class="db-warning">
+                <h6 style="font-size: 20px;">Cotisations  Inactifs</h6>
+                <h3>{{ total_cotisations_inactifs }} FCFA</h3>
+                <h6 style="font-size: 65%; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Montant global des Cotisations des membres inactifs pour {{ current_year }}</h6>
+              </div>
+              <div class="">
+                <i style="font-size: 30px;" class="fas fa-credit-card"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12 d-flex">
+        <div class="card bg-comman w-100">
+          <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+              <div class="db-info">
+                <h6 style="font-size: 25px">Evenements</h6>
+                <h6 style="font-size: 65%; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Valeur globale estimée des évenements</h6>
+                <h3>589 000 FCFA</h3>
+                <h6 style="font-size: 60%; font-family: Georgia, 'Times New Roman', Times, serif;"><strong>2 évenement(s)</strong></h6>
+              </div>
+              <div class="">
+                <i style="font-size: 30px;" class="fas fa-calendar-alt" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 d-flex">
+          <div class="card flex-fill student-space comman-shadow">
+            <div class="card-header d-flex align-items-center">
+              <h5 class="card-title">Cotisations des adhérents les 05 dernièrs mois</h5>
+              <ul class="chart-list-out student-ellips">
+                <li class="star-menus">
+                  <a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table star-student table-hover table-center table-borderless table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      
+                      <th class="text-center">Mois</th>
+                      <th class="text-center">Montant du mois</th>
+                      <th class="text-center">Pourcentage</th>
+                      <th class="text-end">Année</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for cotisation in cotisations_stats %}
+                        <tr>
+                            <td class="text-center">{{ cotisation.MoisCotisation }}</td>
+                            <td class="text-center">{{ cotisation.total_montant }} FCFA</td>
+                            <td class="text-center">{{ cotisation.pourcentage|floatformat:2 }}%</td>
+                            <td class="text-center">{{ cotisation.AnneeConcernee }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" style="text-align: center;">Aucune cotisation trouvée</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-6 d-flex">
+          <div class="card flex-fill comman-shadow">
+            <div class="card-header d-flex align-items-center">
+              <h5 class="card-title">Statistiques</h5>
+              <ul class="chart-list-out student-ellips">
+                <li class="star-menus">
+                  <a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+              <div class="activity-groups">
+                <div class="activity-awards">
+                  <div class="award-boxs">
+                    <i style="font-size: 30px;" class="fas fa-users"></i>
+                  </div>
+                  <div class="award-list-outs">
+                    <h4>Adhérents actifs</h4>
+                    <h5>les Adhérents actifs pour le compte de l'année {{ current_year }} </h5>
+                  </div>
+                  <div class="award-time-list">
+                    <span style="font-size: 15px;">{{ active_count }}</span>
+                  </div>
+                </div>
+                <div class="activity-awards">
+                  <div class="award-boxs">
+                    <i style="font-size: 30px;" class="fas fa-users"></i>
+                  </div>
+                  <div class="award-list-outs">
+                    <h4>Adhérents inactifs</h4>
+                    <h5>les adhérents inactifs pour le compte de l'année {{ current_year }} </h5>
+                  </div>
+                  <div class="award-time-list">
+                    <span style="font-size: 15px;">{{ inactive_count }}</span>
+                  </div>
+                </div>
+                <div class="activity-awards">
+                  <div class="award-boxs">
+                    <i style="font-size: 30px;" class="fas fa-users"></i>
+                  </div>
+                  <div class="award-list-outs">
+                    <h4>Adhérents suspendu(s)</h4>
+                    <h5>Les adhérents suspendu(s) pour compte de l'année {{ current_year }} </h5>
+                  </div>
+                  <div class="award-time-list">
+                    <span style="font-size: 15px;">{{ suspended_count }}</span>
+                  </div>
+                </div>
+                <div class="activity-awards mb-0">
+                  <div class="award-boxs">
+                    <i style="font-size: 30px;" class="fas fa-users"></i>
+                  </div>
+                  <div class="award-list-outs">
+                    <h4>Adhérents femmes</h4>
+                    <h5>Nombre des adhérents femmes pour le compte de l'année {{ current_year }}</h5>
+                  </div>
+                  <div class="award-time-list">
+                    <span style="font-size: 15px;">{{ female_count }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+{% comment %} 
+    <div class="row">
+      <div class="col-md-12 col-lg-6">
+        <div class="card card-chart">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-6">
+                <h5 class="card-title">Overview</h5>
+              </div>
+              <div class="col-6">
+                <ul class="chart-list-out">
+                  <li>
+                    <span class="circle-blue"></span>Teacher
+                  </li>
+                  <li>
+                    <span class="circle-green"></span>Student
+                  </li>
+                  <li class="star-menus">
+                    <a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="apexcharts-area"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-6">
+        <div class="card card-chart">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-6">
+                <h5 class="card-title">Number of Students</h5>
+              </div>
+              <div class="col-6">
+                <ul class="chart-list-out">
+                  <li>
+                    <span class="circle-blue"></span>Girls
+                  </li>
+                  <li>
+                    <span class="circle-green"></span>Boys
+                  </li>
+                  <li class="star-menus">
+                    <a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="bar"></div>
+          </div>
+        </div>
+      </div>
+    </div> {% endcomment %}
+
+  
+  </div>
+</div>
+
+
+  {% endblock %} 

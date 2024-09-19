@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  {% include 'administrateurs/partialsadmin/headbar_admin.html' %}
+  {% include 'administrateurs/partialsadmin/sidebar_admin.html' %}
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-xl-10">
+          <div class="card invoice-info-card">
+            <div class="card-body">
+              <div class="invoice-item invoice-item-one">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="">
+                      {% if cotisation.Adherent.ImageAdh %}
+            <img class="avatar-img" src="{{ cotisation.Adherent.ImageAdh.url }}" alt="Image Adhérent" style="width: 10rem; height: 10rem;" />
+        {% else %}
+            <img class="avatar-img" src="assets/img/profiles/defaut_img.png" alt="Image par défaut" style="width: 10rem; height: 10rem;" />
+        {% endif %}
+                    </div>
+                    <div class="invoice-head">
+                      &nbsp;<p>Code d'adhérent : {{ cotisation.Adherent.CodeAdh }}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="invoice-info">
+                      <h2 class="invoice-name">Nom & Prénom : {{ cotisation.Adherent.NomAdh }} {{ cotisation.Adherent.PrenomAdh }}</h2>
+                      <h2 class="invoice-name">Sexe : {{ cotisation.Adherent.SexeAdh }}</h2>
+                      <h2 class="invoice-name">Tél : {{ cotisation.Adherent.TelephoneAdh }}</h2>
+                      <h2 class="invoice-name">E-mail : {{ cotisation.Adherent.EmailAdh }}</h2>
+                      <h2 class="invoice-name">Adresse : {{ cotisation.Adherent.AdresseAdh }}</h2>
+                      <h2 class="invoice-name">Date d'adhésion : {{ cotisation.Adherent.DateAdhesionAdh }}</h2>
+                      <h2 class="invoice-name">
+                        Statut :{% if cotisation.Adherent.StatutAdh == 'Actif' %}
+                          <span class="badge bg-success">Actif</span>
+                        {% elif cotisation.Adherent.StatutAdh == 'Inactif' %}
+                          <span class="badge bg-warning">Inactif</span>
+                        {% elif cotisation.Adherent.StatutAdh == 'Suspendu' %}
+                          <span class="badge bg-danger">Suspendu</span>
+                        {% else %}
+                          <span class="badge bg-secondary">{{ cotisation.Adherent.StatutAdh }}</span>
+                        {% endif %}
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="invoice-item invoice-item-two">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="invoice-info">
+                      <strong class="customer-text-one" style="text-align: center;">Information détaillée sur la cotisation de {{ cotisation.Adherent.NomAdh }} {{ cotisation.Adherent.PrenomAdh }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="invoice-issues-box">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="invoice-issues-date">
+                      <p style="font-size: 25px;">Montant à cotiser : {{ cotisation.Adherent.MontantACotiserAdh }} FCFA</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="invoice-issues-date">
+                      <p style="font-size: 25px;">
+                        Reste à cotiser :{% if cotisation.reste_a_cotiser == 0 %}
+                          <span class="badge bg-success">{{ cotisation.reste_a_cotiser }} FCFA</span>
+                        {% elif cotisation.reste_a_cotiser > 0 %}
+                          <span class="badge bg-danger">{{ cotisation.reste_a_cotiser }} FCFA</span>
+                        {% else %}
+                          <span class="badge bg-warning">N/A</span>
+                        {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="invoice-item invoice-table-wrap">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <table class="invoice-table table table-center mb-0">
+                        <thead>
+                          <tr>
+                            <th>Mois de Cotisation</th>
+                            <th>Année</th>
+                            <th>Montant Cotisé</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for cot in cotisations %}
+                            <tr>
+                              <td>{{ cot.MoisCotisation }}</td>
+                              <td>{{ cot.AnneeConcernee }}</td>
+                              <td>{{ cot.MontantCotise }} FCFA</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 col-md-6">
+                  <div class="invoice-total-card">
+                    <div class="invoice-total-box">
+                      <div class="invoice-total-footer">
+                        <h4 style="text-align: center;">Total des montants cotisés :  {{ somme_total_cotise }} FCFA</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="invoice-sign text-end">
+                <img class="img-fluid d-inline-block" src="{% static 'assets/img/signature.png' %}" alt="sign" />
+                <span class="d-block"><a href="{% url 'cotisation_view' %}">Cotisations</a></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

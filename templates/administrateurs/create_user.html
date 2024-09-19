@@ -1,0 +1,120 @@
+{% extends 'base_add.html' %}
+
+{% block content %}
+  {% include 'administrateurs/partialsadmin/headbar_admin.html' %}
+  {% include 'administrateurs/partialsadmin/sidebar_admin.html' %}
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="page-header">
+        <div class="row align-items-center">
+          <div class="col">
+            <h3 class="page-title">Gestions des Utilisateurs</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="{% url 'listuser_view' %}">Comptes</a>
+              </li>
+              <li class="breadcrumb-item active">Utilisateurs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-12">
+                    <h5 class="form-title"><span>Ajout d'un utilisateur</span></h5>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Utilsateur <span class="login-danger">*</span></label>
+                      {{ form.username }}
+                      {% if form.username.errors %}
+                        <div class="text-danger">{{ form.username.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>E-mail <span class="login-danger">*</span></label>
+                      {{ form.email }}
+                      {% if form.email.errors %}
+                        <div class="text-danger">{{ form.email.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Mot de passe <span class="login-danger">*</span></label>
+                      {{ form.password1 }}
+                      {% if form.password1.errors %}
+                        <div class="text-danger">{{ form.password1.errors }}</div>
+                      {% endif %}
+                      <span class="profile-views feather-eye toggle-password"></span>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Confirmer le mot de passe <span class="login-danger">*</span></label>
+                      {{ form.password2 }}
+                      {% if form.password2.errors %}
+                        <div class="text-danger">{{ form.password2.errors }}</div>
+                      {% endif %}
+                      <span class="profile-views feather-eye toggle-password"></span>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-sm-4">
+                    <label class="col-form-label col-md-10"><strong>Cocher le rôle de l'utilisateur :</strong></label>
+                    <div class="col-md-10">
+                      <div class="checkbox">
+                        <label>{{ form.is_admin }} Administrateur</label>
+                        {% if form.is_admin.errors %}
+                          <div class="text-danger">{{ form.is_admin.errors }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="checkbox">
+                        <label>{{ form.is_president }} Président</label>
+                        {% if form.is_president.errors %}
+                          <div class="text-danger">{{ form.is_president.errors }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="checkbox">
+                        <label>{{ form.is_tresorier }} Trésorier</label>
+                        {% if form.is_tresorier.errors %}
+                          <div class="text-danger">{{ form.is_tresorier.errors }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="checkbox">
+                        <label>{{ form.is_secretaire }} Secrétaire</label>
+                        {% if form.is_secretaire.errors %}
+                          <div class="text-danger">{{ form.is_secretaire.errors }}</div>
+                        {% endif %}
+                      </div>
+                      <div class="checkbox">
+                        <label>{{ form.is_membre }} Membre</label>
+                        {% if form.is_membre.errors %}
+                          <div class="text-danger">{{ form.is_membre.errors }}</div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="student-submit">
+                      <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

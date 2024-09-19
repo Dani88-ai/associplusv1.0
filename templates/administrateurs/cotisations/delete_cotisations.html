@@ -1,0 +1,52 @@
+{% extends 'base.html' %} 
+{% block content %}
+  {% include 'administrateurs/partialsadmin/headbar_admin.html' %}
+  {% include 'administrateurs/partialsadmin/sidebar_admin.html' %}
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Gestion des cotisations</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'cotisation_view' %}">Cotisations</a>
+            </li>
+            <li class="breadcrumb-item active">Supprimer une cotisation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="form-title"><span>Suppression d'une cotisation</span></h5>
+                </div>
+                
+                <div class="invoice-terms" style="text-align: center;">
+                    <h6>Supprimer:</h6>
+                    <p class="mb-0" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Êtes-vous sûr de vouloir supprimer cette cotisation. Cette action est irréversible.</p>
+                    </div>
+                
+                <div class="col-12">
+                  <div class="student-submit" style="text-align: center;">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                    <a href="{% url 'cotisation_view' %}" class="btn btn-secondary">Annuler</a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

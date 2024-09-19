@@ -1,0 +1,145 @@
+{% extends 'base_add.html' %}
+{% block content %}
+  {% include 'administrateurs/partialsadmin/headbar_admin.html' %}
+  {% include 'administrateurs/partialsadmin/sidebar_admin.html' %}
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="page-header">
+        <div class="row align-items-center">
+          <div class="col">
+            <h3 class="page-title">Gestions des adhérents</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="{% url 'adherent_view' %}">adhérents</a>
+              </li>
+              <li class="breadcrumb-item active">Modifier un adhérent</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-12">
+                    <h5 class="form-title student-info">Modification d'un Adhérent <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Code <span class="login-danger">*</span></label>
+                      {{ form.CodeAdh }}
+                      {% if form.CodeAdh.errors %}
+                        <div class="text-danger">{{ form.CodeAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Nom <span class="login-danger">*</span></label>
+                      {{ form.NomAdh }}
+                      {% if form.NomAdh.errors %}
+                        <div class="text-danger">{{ form.NomAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Prénom <span class="login-danger">*</span></label>
+                      {{ form.PrenomAdh }}
+                      {% if form.PrenomAdh.errors %}
+                        <div class="text-danger">{{ form.PrenomAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Sexe <span class="login-danger">*</span></label>
+                      {{ form.SexeAdh }}
+                      {% if form.SexeAdh.errors %}
+                        <div class="text-danger">{{ form.SexeAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms calendar-icon">
+                        <label>Date d'adhésion <span class="login-danger">*</span></label>
+                        {{ form.DateAdhesionAdh }}
+                        {% if form.DateAdhesionAdh.errors %}
+                            <div class="text-danger">{{ form.DateAdhesionAdh.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Téléphone <span class="login-danger">*</span></label>
+                      {{ form.TelephoneAdh }}
+                      {% if form.TelephoneAdh.errors %}
+                        <div class="text-danger">{{ form.TelephoneAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Email</label>
+                      {{ form.EmailAdh }}
+                      {% if form.EmailAdh.errors %}
+                        <div class="text-danger">{{ form.EmailAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Adresse <span class="login-danger">*</span></label>
+                      {{ form.AdresseAdh }}
+                      {% if form.AdresseAdh.errors %}
+                        <div class="text-danger">{{ form.AdresseAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Montant à cotiser <span class="login-danger">*</span></label>
+                      {{ form.MontantACotiserAdh }}
+                      {% if form.MontantACotiserAdh.errors %}
+                        <div class="text-danger">{{ form.MontantACotiserAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group local-forms">
+                      <label>Statut <span class="login-danger">*</span></label>
+                      {{ form.StatutAdh }}
+                      {% if form.StatutAdh.errors %}
+                        <div class="text-danger">{{ form.StatutAdh.errors }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="form-group students-up-files">
+                      <label>Modifier la photo de l'adhérent</label>
+                      <div class="uplod">
+                        {{ form.ImageAdh }}
+                      {% if form.ImageAdh.errors %}
+                        <div class="text-danger">{{ form.ImageAdh.errors }}</div>
+                      {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="student-submit">
+                      <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

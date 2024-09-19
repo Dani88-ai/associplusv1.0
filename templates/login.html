@@ -1,0 +1,70 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="main-wrapper login-body">
+    <div class="login-wrapper">
+      <div class="container">
+        <div class="loginbox">
+          <div class="login-left">
+            <img class="img-fluid" src="{% static 'assets/img/login1.png' %}" alt="Logo" />
+          </div>
+          <div class="login-right">
+            <div class="login-right-wrap">
+              <h1 style="text-align: center;">Bienvenue sur AssociPlus</h1>
+              <p class="account-subtitle" style="text-align: center;">Plateforme de gestion d'association</p>
+              <h2>Identification</h2>
+
+              <form action=" " method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label>Utilisateur <span class="login-danger">*</span></label>
+                  <!-- <input class="form-control" type="text"> -->
+                  {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger">{{ form.username.errors }}</div>
+                      {% endif %}
+                  <span class="profile-views"><i class="fas fa-user-circle"></i></span>
+
+                </div>
+                <div class="form-group">
+                  <label>Mot de passe <span class="login-danger">*</span></label>
+                  <!-- <input class="form-control pass-input" type="text"> -->
+                  {{ form.password }}
+                     {% if form.password.errors %}
+                        <div class="text-danger">{{ form.password.errors }}</div>
+                      {% endif %}
+                  <span class="profile-views feather-eye toggle-password"></span>
+                </div>
+                <div class="forgotpass">
+                  <div class="remember-me">
+                    <label class="custom_check mr-2 mb-0 d-inline-flex remember-me">
+                      Remember me<input type="checkbox" name="radio" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <a href="forgot-password.html">mot de passe oublié ?</a>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary btn-block" type="submit">Connexion</button>
+                </div>
+              </form>
+
+              <div class="login-or">
+                <span class="or-line"></span>
+                <span class="span-or">or</span>
+              </div>
+
+              <div class="social-login">
+                <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
